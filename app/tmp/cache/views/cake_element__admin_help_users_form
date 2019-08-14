@@ -1,0 +1,23 @@
+1565753688
+s:529:"
+
+<div id="Help" class="clearfix">
+
+	<h2 class="head">
+		<img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_help.png" alt="Help"/>Help	</h2>
+
+	<div class="body">
+		
+
+<ul>
+	<li>You can register User Account for login.</li>
+	<li>Enter the password field only if you want to change it.</li></ul>
+	</div>
+
+	<div class="clearfix close">
+		<div id="CloseHelp">
+			<a><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/btn_close.png" width="14" height="14" alt="Close" class="btn"/></a>
+		</div>
+	</div>
+
+<!-- / #Help --></div>";

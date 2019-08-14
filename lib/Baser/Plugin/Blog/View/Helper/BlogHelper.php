@@ -190,8 +190,8 @@ class BlogHelper extends AppHelper {
  * @param boolean $link 詳細ページへのリンクをつける場合には、true を指定する（初期値 : true）
  * @return void
  */
-	public function postTitle($post, $link = true) {
-		echo $this->getPostTitle($post, $link);
+	public function postTitle($post, $link = true, $options = []) {
+		echo $this->getPostTitle($post, $link, $options);
 	}
 
 /**
@@ -199,14 +199,24 @@ class BlogHelper extends AppHelper {
  *
  * @param array $post ブログ記事データ
  * @param boolean $link 詳細ページへのリンクをつける場合には、true を指定する（初期値 : true）
+ * @param array $options オプション（初期値：arary()）
+ * 	- `escape` : エスケープ処理を行うかどうか
+ * 	※ その他のオプションについては、HtmlHelper::link() を参照
  * @return string 記事タイトル
  */
-	public function getPostTitle($post, $link = true) {
+	public function getPostTitle($post, $link = true, $options = []) {
+		$options = array_merge([
+			'escape' => true
+		], $options);
+		$title = $post['BlogPost']['name'];
 		if ($link) {
-			return $this->getPostLink($post, $post['BlogPost']['name']);
+			$title = $this->getPostLink($post, $title, $options);
 		} else {
-			return $post['BlogPost']['name'];
+			if(!empty($options['escape'])) {
+				$title = h($title);
+			}
 		}
+		return $title;
 	}
 
 /**
@@ -793,6 +803,7 @@ class BlogHelper extends AppHelper {
  *	- `num` : 何枚目の画像か順番を指定（初期値 : 1）
  *	- `link` : 詳細ページへのリンクをつけるかどうか（初期値 : true）
  *	- `alt` : ALT属性（初期値 : ブログ記事のタイトル）
+ *	- `output` : 出力形式 tag, url のを指定できる（初期値 : ''）
  * @return string
  */
 	public function getPostImg($post, $options = []) {
@@ -800,12 +811,15 @@ class BlogHelper extends AppHelper {
 		$options = array_merge($_options = [
 			'num' => 1,
 			'link' => true,
-			'alt' => $post['BlogPost']['name']
+			'alt' => $post['BlogPost']['name'],
+			'output' => '', // 出力形式 tag or url
 			], $options);
 		$num = $options['num'];
 		$link = $options['link'];
+		$output = $options['output'];
 		unset($options['num']);
 		unset($options['link']);
+		unset($options['output']);
 
 		$contents = $post['BlogPost']['content'] . $post['BlogPost']['detail'];
 		$pattern = '/<img.*?src="([^"]+)"[^>]*>/is';
@@ -816,6 +830,9 @@ class BlogHelper extends AppHelper {
 		if (isset($matches[1][$num - 1])) {
 			$url = $matches[1][$num - 1];
 			$url = preg_replace('/^' . preg_quote($this->base, '/') . '/', '', $url);
+			if ($output == 'url') {
+				return $url; // 出力形式 が urlなら、URLを返す
+			}
 			$img = $this->BcBaser->getImg($url, $options);
 			if ($link) {
 				return $this->BcBaser->getLink($img, $this->request->params['Content']['url'] . 'archives/' . $post['BlogPost']['no']);
@@ -1108,7 +1125,7 @@ class BlogHelper extends AppHelper {
  * @param array $post ブログ記事
  * @return array
  */
-	private function getNextPost($post) {
+	public function getNextPost($post) {
 		$BlogPost = ClassRegistry::init('Blog.BlogPost');
 		// 投稿日が年月日時分秒が同一のデータの対応の為、投稿日が同じでIDが小さいデータを検索
 		$conditions = [];
@@ -1148,7 +1165,7 @@ class BlogHelper extends AppHelper {
  * @param array $post ブログ記事
  * @return array 
  */
-	private function getPrevPost($post) {
+	public function getPrevPost($post) {
 		$BlogPost = ClassRegistry::init('Blog.BlogPost');
 		// 投稿日が年月日時分秒が同一のデータの対応の為、投稿日が同じでIDが大きいデータを検索
 		$conditions = [];

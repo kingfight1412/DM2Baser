@@ -57,7 +57,7 @@ class MailMessagesController extends MailAppController {
  *
  * @var array
  */
-	public $subMenuElements = array('mail_fields');
+	public $subMenuElements = ['mail_fields'];
 
 /**
  * beforeFilter
@@ -66,7 +66,6 @@ class MailMessagesController extends MailAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->MailContent->recursive = -1;
 		$this->mailContent = $this->MailContent->read(null, $this->params['pass'][0]);
 		App::uses('MailMessage', 'Mail.Model');
 		$this->MailMessage = new MailMessage();
@@ -110,7 +109,7 @@ class MailMessagesController extends MailAppController {
 			return;
 		}
 
-		$this->pageTitle = __d('baser', '受信メール一覧');
+		$this->pageTitle = sprintf(__d('baser', '%s｜受信メール一覧'), $this->request->params['Content']['title']);
 		$this->help = 'mail_messages_index';
 	}
 
@@ -134,7 +133,7 @@ class MailMessagesController extends MailAppController {
 
 		$this->crumbs[] = array('name' => __d('baser', '受信メール一覧'), 'url' => array('controller' => 'mail_messages', 'action' => 'index', $this->params['pass'][0]));
 		$this->set(compact('message', 'mailFields'));
-		$this->pageTitle = __d('baser', '受信メール詳細');
+		$this->pageTitle = sprintf(__d('baser', '%s｜受信メール詳細'), $this->request->params['Content']['title']);
 	}
 
 /**
@@ -203,7 +202,7 @@ class MailMessagesController extends MailAppController {
 			$this->notFound();
 		}
 		if ($this->MailMessage->delete($messageId)) {
-			$this->setMessage(sprintf(__d('baser', '%s への受信データ NO「%s」 を削除しました。'), $this->mailContent['MailContent']['title'], $messageId), false, true);
+			$this->setMessage(sprintf(__d('baser', '%s への受信データ NO「%s」 を削除しました。'), $this->mailContent['Content']['title'], $messageId), false, true);
 		} else {
 			$this->setMessage(__d('baser', 'データベース処理中にエラーが発生しました。'), true);
 		}

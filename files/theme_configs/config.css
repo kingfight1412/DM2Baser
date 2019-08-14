@@ -1,0 +1,24 @@
+/**
+ * テーマ設定用CSS
+ * 呼出箇所：全てのページ
+ */
+
+#Header,
+#Footer {
+	background:#e371e3;
+}
+#GlobalMenu {
+	background:#21b537;
+}
+#SideBox  a:link,
+#SideBox  a:visited,
+.contents-body a:link,
+.contents-body a:visited {
+	color:#1808f5;
+}
+#SideBox  a:hover,
+#SideBox  a:active,
+.contents-body a:hover,
+.contents-body a:active {
+	color:#ed8815;
+}

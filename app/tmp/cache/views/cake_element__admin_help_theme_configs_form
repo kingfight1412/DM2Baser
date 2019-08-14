@@ -1,0 +1,25 @@
+1565753187
+s:736:"
+
+<div id="Help" class="clearfix">
+
+	<h2 class="head">
+		<img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_help.png" alt="Help"/>Help	</h2>
+
+	<div class="body">
+		
+
+<p>You can change Design Theme’s Logo or Main Image.<br />Caution: Applied Theme must be compatible to change Logo or Main Image.</p>
+<ul>
+	<li>Default image is displayed by default if Theme has default Logo or Main Image.</li>
+	<li>Default image will be applied if uploaded image was deleted or Theme has default image.</li>
+</ul>
+	</div>
+
+	<div class="clearfix close">
+		<div id="CloseHelp">
+			<a><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/btn_close.png" width="14" height="14" alt="Close" class="btn"/></a>
+		</div>
+	</div>
+
+<!-- / #Help --></div>";

@@ -189,7 +189,10 @@ class MailController extends MailAppController {
  *
  * @return void
  */
-	public function index($id = null) {
+	public function index() {
+		if(empty($this->dbDatas['mailContent'])) {
+			$this->notFound();
+		}
 		if (!$this->MailContent->isAccepting($this->dbDatas['mailContent']['MailContent']['publish_begin'], $this->dbDatas['mailContent']['MailContent']['publish_end'])) {
 			$this->render($this->dbDatas['mailContent']['MailContent']['form_template'] . DS . 'unpublish');
 			return;
@@ -209,8 +212,6 @@ class MailController extends MailAppController {
 				}
 			}
 			$this->request->data = $this->MailMessage->getDefaultValue($this->request->params['named']);
-		} else {
-			$this->request->data['MailMessage'] = $this->MailMessage->sanitizeData($this->request->data['MailMessage']);
 		}
 
 		$this->set('freezed', false);
@@ -246,7 +247,8 @@ class MailController extends MailAppController {
 			return;
 		}
 		if (!$this->Session->read('Mail.valid')) {
-			$this->notFound();
+			$this->BcMessage->setError('エラーが発生しました。もう一度操作してください。');
+			$this->redirect($this->request->params['Content']['url'] . '/index');
 		}
 
 		if (!$this->request->data) {
@@ -279,7 +281,6 @@ class MailController extends MailAppController {
 				$this->request->data['MailMessage']['captcha_id'] = null;
 				$this->setMessage(__('エラー : 入力内容を確認して再度送信してください。'), true);
 			}
-			$this->request->data['MailMessage'] = $this->MailMessage->sanitizeData($this->request->data['MailMessage']);
 		}
 
 		if ($this->dbDatas['mailFields']) {
@@ -305,6 +306,7 @@ class MailController extends MailAppController {
 			return;
 		}
 		if (!$this->Session->read('Mail.valid')) {
+			$this->BcMessage->setError('エラーが発生しました。もう一度操作してください。');
 			$this->redirect($this->request->params['Content']['url'] . '/index');
 		}
 
@@ -338,7 +340,7 @@ class MailController extends MailAppController {
 					// validation OK
 					$result = $this->MailMessage->save(null, false);
 				} else {
-					$result = $this->request->data;
+					$result = $this->MailMessage->saveFiles($this->MailMessage->data);
 				}
 
 				if ($result) {
@@ -358,18 +360,37 @@ class MailController extends MailAppController {
 					}
 
 					// メール送信
-					$this->_sendEmail($sendEmailOptions);
+					if ($this->_sendEmail($sendEmailOptions)) {
+						if (!$this->dbDatas['mailContent']['MailContent']['save_info']) {
+							$fileRecords = [];
+							foreach($this->dbDatas['mailFields'] as $key => $field) {
+								if($field['MailField']['type'] === 'file') {
+									// 削除フラグをセット
+									$fileRecords['MailMessage'] = [
+										$field['MailField']['field_name'] => $this->request->data['MailMessage'][$field['MailField']['field_name']],
+										$field['MailField']['field_name'] . '_delete' => true,
+									];
+									// BcUploadBehavior::deleteFiles() はデータベースのデータを削除する前提となっているため、
+									// Model->data['MailMessage']['field_name'] に、配列ではなく、文字列がセットされている状態を想定しているので状態を模倣する
+									$this->MailMessage->data['MailMessage'][$field['MailField']['field_name']] = $this->request->data['MailMessage'][$field['MailField']['field_name']];
+								}
+							}
+							$this->MailMessage->deleteFiles($fileRecords);
+						}
 
-					$this->Session->delete('Mail.valid');
+						$this->Session->delete('Mail.valid');
 
-					/*** Mail.afterSendEmail ***/
-					$this->dispatchEvent('afterSendEmail', [
-						'data' => $this->request->data
-					]);
+						/*** Mail.afterSendEmail ***/
+						$this->dispatchEvent('afterSendEmail', [
+							'data' => $this->request->data
+						]);
+					} else {
+						$this->setMessage(__('エラー : 送信中にエラーが発生しました。しばらくたってから再度送信お願いします。'), true);
+						$this->redirect($this->request->params['Content']['url']);
+					}
 				} else {
-
 					$this->setMessage(__('エラー : 送信中にエラーが発生しました。しばらくたってから再度送信お願いします。'), true);
-					$this->set('sendError', true);
+					$this->redirect($this->request->params['Content']['url']);
 				}
 
 				$this->Session->write('Mail.MailContent', $this->dbDatas['mailContent']);
@@ -383,7 +404,6 @@ class MailController extends MailAppController {
 				$this->setMessage('Error : Confirm your entries and send again.', true);
 				$this->request->data['MailMessage']['auth_captcha'] = null;
 				$this->request->data['MailMessage']['captcha_id'] = null;
-				$this->request->data['MailMessage'] = $this->MailMessage->sanitizeData($this->request->data['MailMessage']);
 				$this->action = 'index'; //viewのボタンの表示の切り替えに必要なため変更
 				if ($this->dbDatas['mailFields']) {
 					$this->set('mailFields', $this->dbDatas['mailFields']);
@@ -469,7 +489,7 @@ class MailController extends MailAppController {
 		$userMail = '';
 
 		// データを整形
-		$data = $this->MailMessage->restoreData($this->MailMessage->convertToDb($this->request->data));
+		$data = $this->MailMessage->convertToDb($this->request->data);
 		$data['message'] = $data['MailMessage'];
 		unset($data['MailMessage']);
 		$data['mailFields'] = $this->dbDatas['mailFields'];
@@ -522,6 +542,33 @@ class MailController extends MailAppController {
 			}
 		}
 
+		// 管理者に送信
+		if (!empty($adminMail)) {
+			// カンマ区切りで複数設定されていた場合先頭のアドレスをreplayToに利用
+			$userReply = $userMail;
+			if (strpos($userReply, ',') !== false) {
+				list($userReply) = explode(',', $userReply);
+			}
+			$data['other']['mode'] = 'admin';
+			$toAdminOptions = array_merge(
+				[
+					'fromName' => $mailContent['sender_name'],
+					'replyTo' => $userReply,
+					'from' => $fromAdmin,
+					'template' => 'Mail.' . $mailContent['mail_template'],
+					'bcc' => $mailContent['sender_2'],
+					'agentTemplate' => false,
+					'attachments' => $attachments,
+					'additionalParameters' => '-f ' . $fromAdmin,
+				],
+				$options['toAdmin']
+			);
+			$sendResult = $this->sendMail($adminMail, $mailContent['subject_admin'], $data, $toAdminOptions);
+			if (!$sendResult) {
+				return false;
+			}
+		}
+
 		// ユーザーに送信
 		if (!empty($userMail)) {
 			$site = BcSite::findCurrent();
@@ -541,31 +588,13 @@ class MailController extends MailAppController {
 				],
 				$options['toUser']
 			);
-			$this->sendMail($userMail, $mailContent['subject_user'], $data, $toUserOptions);
+			$sendResult = $this->sendMail($userMail, $mailContent['subject_user'], $data, $toUserOptions);
+			if (!$sendResult) {
+				return false;
+			}
 		}
 
-		// 管理者に送信
-		if (!empty($adminMail)) {
-			// カンマ区切りで複数設定されていた場合先頭のアドレスをreplayToに利用
-			if (strpos($userMail, ',') !== false) {
-				list($userMail) = explode(',', $userMail);
-			}
-			$data['other']['mode'] = 'admin';
-			$toAdminOptions = array_merge(
-				[
-					'fromName' => $mailContent['sender_name'],
-					'replyTo' => $userMail,
-					'from' => $fromAdmin,
-					'template' => 'Mail.' . $mailContent['mail_template'],
-					'bcc' => $mailContent['sender_2'],
-					'agentTemplate' => false,
-					'attachments' => $attachments,
-					'additionalParameters' => '-f ' . $fromAdmin,
-				],
-				$options['toAdmin']
-			);
-			$this->sendMail($adminMail, $mailContent['subject_admin'], $data, $toAdminOptions);
-		}
+		return true;
 	}
 	
 /**

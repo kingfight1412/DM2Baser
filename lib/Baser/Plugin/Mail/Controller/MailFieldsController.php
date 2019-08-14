@@ -70,7 +70,8 @@ class MailFieldsController extends MailAppController {
 		$this->request->params['Content'] = $this->BcContents->getContent($mailContentId)['Content'];
 		$this->crumbs[] = array('name' => sprintf('%s 設定', $this->request->params['Content']['title']), 'url' => array('plugin' => 'mail', 'controller' => 'mail_fields', 'action' => 'index', $mailContentId));
 		if($this->request->params['Content']['status']) {
-			$this->set('publishLink', $this->request->params['Content']['url']);
+			$site = BcSite::findById($this->request->pramas['Content']['site_id']);
+			$this->set('publishLink', $this->Content->getUrl($this->request->params['Content']['url'], true, $site->useSubDomain));
 		}
 	}
 
@@ -128,7 +129,7 @@ class MailFieldsController extends MailAppController {
 			return;
 		}
 		$this->subMenuElements = array('mail_fields');
-		$this->pageTitle = sprintf(__d('baser', '[%s] メールフィールド一覧'), $this->request->params['Content']['title']);
+		$this->pageTitle = sprintf(__d('baser', '%s｜メールフィールド一覧'), $this->request->params['Content']['title']);
 		$this->help = 'mail_fields_index';
 	}
 
@@ -192,9 +193,9 @@ class MailFieldsController extends MailAppController {
 				$this->setMessage(__d('baser', '入力エラーです。内容を修正してください。'), true);
 			}
 		}
-
+		
 		$this->subMenuElements = array('mail_fields');
-		$this->pageTitle = sprintf(__d('baser', '[%s] 新規メールフィールド登録'), $this->request->params['Content']['title']);
+		$this->pageTitle = sprintf(__d('baser', '%s｜新規メールフィールド登録'), $this->request->params['Content']['title']);
 		$this->help = 'mail_fields_form';
 		$this->render('form');
 	}
@@ -247,7 +248,7 @@ class MailFieldsController extends MailAppController {
 
 		/* 表示設定 */
 		$this->subMenuElements = array('mail_fields');
-		$this->pageTitle = sprintf(__d('baser', '[%s] メールフィールド編集： %s'), $this->request->params['Content']['title'], $this->request->data['MailField']['name']);
+		$this->pageTitle = sprintf(__d('baser', '%s｜メールフィールド編集'), $this->request->params['Content']['title']);
 		$this->help = 'mail_fields_form';
 		$this->render('form');
 	}

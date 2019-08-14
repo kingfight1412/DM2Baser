@@ -1,0 +1,45 @@
+1565753688
+s:2234:"
+
+<div id="Footer">
+
+	<div id="FooterInner" class="clearfix">
+
+		<div id="FooterLogo">
+			<a href="/hoangnm/basercms-4.2.1/basercms/admin"><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/logo_footer.png" width="155" height="30" alt="baserCMS Logo"/></a>		</div>
+
+					<div id="FooterMenu">
+				<h2><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_menu.png" width="44" height="16" alt="MENU"/></h2>
+				<ul>
+					<li><a href="/hoangnm/basercms-4.2.1/basercms/admin/contents/">Contents</a></li>
+					<li><a href="/hoangnm/basercms-4.2.1/basercms/admin/widget_areas/">Widgets</a></li>
+					<li><a href="/hoangnm/basercms-4.2.1/basercms/admin/themes/">Themes</a></li>
+					<li><a href="/hoangnm/basercms-4.2.1/basercms/admin/plugins/">Plugins</a></li>
+					<li><a href="/hoangnm/basercms-4.2.1/basercms/admin/site_configs/form">System</a></li>
+				</ul>
+			</div>
+		
+		<div id="FooterLink">
+			<h2><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_link.png" width="36" height="16" alt="LINK"/></h2>
+			<ul>
+				<li><a href="https://basercms.net/" target="_blank">baserCMS Official Site</a></li>
+				<li><a href="https://basercms.net/community/" target="_blank">baserCMS Users Community</a></li>
+				<li><a href="http://forum.basercms.net/" target="_blank">baserCMS Users Forum</a></li>
+				<li><a href="http://project.e-catchup.jp/projects/basercms" target="_blank">baserCMS Core Development Project</a></li>
+				<li><a href="https://www.facebook.com/basercms" target="_blank">baserCMS Facebook</a></li>
+				<li><a href="https://twitter.com/basercms" target="_blank">baserCMS Twitter</a></li>
+			</ul>
+		</div>
+
+		<div class="float-right">
+			<ul id="FooterBanner">
+				<li><a href="https://basercms.net/" target="_blank" title="baserCMS Power"><img src="/hoangnm/basercms-4.2.1/basercms/img/baser.power.gif" alt="baserCMS Power"/></a></li>
+				<li><a href="https://cakephp.org/jp/" target="_blank" title="CakePHP Power"><img src="/hoangnm/basercms-4.2.1/basercms/img/cake.power.gif" alt="CakePHP Power"/></a></li>
+			</ul>
+			<p id="BaserVersion">baserCMS 4.2.1</p>
+			<div id="Copyright">Copyright (C) baserCMS Users Community 2009 - 2019.</div>
+		</div>
+
+		<!-- / #FooterInner --></div>
+
+	<!-- / #Footer --></div>";
