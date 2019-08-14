@@ -80,6 +80,9 @@ class MailMessage extends MailAppModel {
 				'conditions' => 'MailContent.id = MailField.mail_content_id'
 			]]
 		]);
+		if(!$mailContent) {
+			return false;
+		}
 		$this->mailContent = ['MailContent' => $mailContent['MailContent']];
 		if(!empty($mailContent['MailField'])) {
 			foreach($mailContent['MailField'] as $value) {
@@ -226,11 +229,16 @@ class MailMessage extends MailAppModel {
 					$options = call_user_func_array('aa', $options);
 					switch ($valid) {
 						case 'VALID_MAX_FILE_SIZE':
-							if(!empty($options['maxFileSize'])) {
-								if(!in_array($this->data['MailMessage'][$mailField['field_name']]['error'], [1, 2])) {
-									$errorMessage = __('ファイルサイズがオーバーしています。 %s MB以内のファイルをご利用ください。', $options['maxFileSize']);
-								} else {
-									$errorMessage = __('何らかの原因でファイルをアップロードできませんでした。Webサイトの管理者に連絡してください。');
+							if (!empty($options['maxFileSize']) && $this->data['MailMessage'][$mailField['field_name']]['error'] !== UPLOAD_ERR_NO_FILE) {
+								switch ($this->data['MailMessage'][$mailField['field_name']]['error']) {
+									case UPLOAD_ERR_OK:
+									case UPLOAD_ERR_INI_SIZE:
+									case UPLOAD_ERR_FORM_SIZE:
+										$errorMessage = __('ファイルサイズがオーバーしています。 %s MB以内のファイルをご利用ください。',
+											$options['maxFileSize']);
+										break;
+									default:
+										$errorMessage = __('何らかの原因でファイルをアップロードできませんでした。Webサイトの管理者に連絡してください。');
 								}
 								$this->validate[$mailField['field_name']]['fileCheck'] = [
 									'rule' => ['fileCheck', $options['maxFileSize'] * 1000 * 1000],
@@ -586,6 +594,7 @@ class MailMessage extends MailAppModel {
 			"\xE3\x8F\x8D" => "K.K.",
 			"\xE2\x84\xA1" => "TEL",
 			"\xE2\x84\x96" => "No.",
+			"\xE3\x8B\xBF" => "令和",
 			"\xE3\x8D\xBB" => "平成",
 			"\xE3\x8D\xBC" => "昭和",
 			"\xE3\x8D\xBD" => "大正",

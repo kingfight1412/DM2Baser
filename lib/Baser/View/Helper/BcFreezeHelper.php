@@ -60,7 +60,7 @@ class BcFreezeHelper extends BcFormHelper {
 			} else {
 				$value = $this->request->data[$model][$field];
 			}
-			return parent::text($fieldName, $attributes) . $value;
+			return parent::text($fieldName, $attributes) . h($value);
 		} else {
 			return parent::text($fieldName, $attributes);
 		}
@@ -329,7 +329,7 @@ class BcFreezeHelper extends BcFormHelper {
 				$value = $this->request->data[$model][$field];
 			}
 			if ($value) {
-				return parent::text($fieldName, $attributes) . nl2br($value);
+				return parent::text($fieldName, $attributes) . nl2br(h($value));
 			} else {
 				return "&nbsp;";
 			}
@@ -437,6 +437,35 @@ class BcFreezeHelper extends BcFormHelper {
 				$output .= "<br />" . $this->checkbox($fieldName . "_delete", ['label' => __d('baser', '削除する')]);
 			}
 			return parent::file($fieldName, $attributes) . "<br />" . $output;
+		}
+	}
+
+/**
+ * TELボックスを表示する
+ * 
+ * @param string $fieldName フィールド文字列
+ * @param array $attributes html属性
+ * @return	string	htmlタグ
+ * @access	public
+ */
+	public function tel($fieldName, $attributes = []) {
+
+		if ($this->freezed) {
+			list($model, $field) = explode('.', $fieldName);
+			if (isset($attributes)) {
+				$attributes = $attributes + ['type' => 'hidden'];
+			} else {
+				$attributes = ['type' => 'hidden'];
+			}
+			if (isset($attributes["value"])) {
+				$value = $attributes["value"];
+			} else {
+				$value = $this->request->data[$model][$field];
+			}
+			$attributes['type'] = 'hidden';
+			return parent::tel($fieldName, $attributes) . h($value);
+		} else {
+			return parent::tel($fieldName, $attributes);
 		}
 	}
 

@@ -19,5 +19,10 @@ $description = __d('baser', 'PHPコードが書かれたテンプレートの読
 
 
 <?php echo $this->BcForm->label($key . '.template', __d('baser', 'PHPテンプレート名')) ?> 
-<?php echo $this->BcForm->text($key . '.template', ['size' => 14]) ?> <?php echo $this->ext ?>
-<p style="text-align:left"><small><?php echo __d('baser', 'テンプレートを利用中のテーマ内の次のパスに保存してください。<br />/app/webroot/theme/{テーマ名}/Elements/widgets/</small></p>')?>
+<?php echo $this->BcForm->input($key . '.template', ['type' => 'text', 'size' => 14]) ?> <?php echo $this->ext ?>
+<p style="text-align:left"><small>
+	<?php
+	$webroot = preg_replace('/' . preg_quote(docRoot(), '/') . '/', '', WWW_ROOT, 1);
+	echo sprintf(__d('baser', 'テンプレートを利用中のテーマ内の次のパスに保存してください。<br />%stheme/{テーマ名}/Elements/widgets/'), $webroot);
+	?>
+</small></p>

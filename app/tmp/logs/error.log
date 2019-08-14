@@ -1,0 +1,51 @@
+2019-08-14 11:55:40 Error: [ParseError] syntax error, unexpected '}', expecting ';'
+Request URL: /hoangnm/basercms-4.2.1/basercms/admin/theme_configs/form
+Stack Trace:
+#0 [internal function]: App::load('ThemeConfig')
+#1 [internal function]: spl_autoload_call('ThemeConfig')
+#2 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Utility\ClassRegistry.php(146): class_exists('ThemeConfig')
+#3 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(746): ClassRegistry::init('ThemeConfig')
+#4 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(376): Controller->loadModel('ThemeConfig')
+#5 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(414): Controller->__isset('ThemeConfig')
+#6 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Baser\Controller\ThemeConfigsController.php(69): Controller->__get('ThemeConfig')
+#7 [internal function]: ThemeConfigsController->admin_form()
+#8 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(499): ReflectionMethod->invokeArgs(Object(ThemeConfigsController), Array)
+#9 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Routing\Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#10 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Routing\Dispatcher.php(167): Dispatcher->_invoke(Object(ThemeConfigsController), Object(CakeRequest))
+#11 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\index.php(123): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2019-08-14 11:55:40 Error: Fatal Error (16): Exception thrown without a stack frame in [Unknown, line 0]
+2019-08-14 11:55:40 Error: [InternalErrorException] Internal Server Error
+Request URL: /hoangnm/basercms-4.2.1/basercms/admin/theme_configs/form
+Stack Trace:
+#0 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Error\ErrorHandler.php(212): ErrorHandler::handleFatalError(16, 'Exception throw...', 'Unknown', 0)
+#1 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Core\App.php(970): ErrorHandler::handleError(16, 'Exception throw...', 'Unknown', 0, Array)
+#2 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Core\App.php(943): App::_checkFatalError()
+#3 [internal function]: App::shutdown()
+#4 {main}
+2019-08-14 11:56:06 Error: [ParseError] syntax error, unexpected '}', expecting ';'
+Request URL: /hoangnm/basercms-4.2.1/basercms/admin/theme_configs/form
+Stack Trace:
+#0 [internal function]: App::load('ThemeConfig')
+#1 [internal function]: spl_autoload_call('ThemeConfig')
+#2 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Utility\ClassRegistry.php(146): class_exists('ThemeConfig')
+#3 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(746): ClassRegistry::init('ThemeConfig')
+#4 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(376): Controller->loadModel('ThemeConfig')
+#5 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(414): Controller->__isset('ThemeConfig')
+#6 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Baser\Controller\ThemeConfigsController.php(69): Controller->__get('ThemeConfig')
+#7 [internal function]: ThemeConfigsController->admin_form()
+#8 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Controller\Controller.php(499): ReflectionMethod->invokeArgs(Object(ThemeConfigsController), Array)
+#9 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Routing\Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#10 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Routing\Dispatcher.php(167): Dispatcher->_invoke(Object(ThemeConfigsController), Object(CakeRequest))
+#11 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\index.php(123): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2019-08-14 11:56:06 Error: Fatal Error (16): Exception thrown without a stack frame in [Unknown, line 0]
+2019-08-14 11:56:06 Error: [InternalErrorException] Internal Server Error
+Request URL: /hoangnm/basercms-4.2.1/basercms/admin/theme_configs/form
+Stack Trace:
+#0 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Error\ErrorHandler.php(212): ErrorHandler::handleFatalError(16, 'Exception throw...', 'Unknown', 0)
+#1 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Core\App.php(970): ErrorHandler::handleError(16, 'Exception throw...', 'Unknown', 0, Array)
+#2 D:\xampp\htdocs\hoangnm\basercms-4.2.1\basercms\lib\Cake\Core\App.php(943): App::_checkFatalError()
+#3 [internal function]: App::shutdown()
+#4 {main}
+2019-08-14 12:14:16 Error: Plugin Mail could not be found.

@@ -1,0 +1,28 @@
+1565753707
+s:1322:"
+
+<div id="Help" class="clearfix">
+
+	<h2 class="head">
+		<img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_help.png" alt="Help"/>Help	</h2>
+
+	<div class="body">
+		
+
+<p>Doing WEB site’s Basic Settings.<br />Please check help message on each Item.</p>
+<ul>
+	<li>You can delete all cache files on server by “Delete Server Cache” on Utility on upper screen. Also, You can disable creating server cache after deleting it by switching to “Creation Development Mode” to Debug Mode on Option on bottom screen.</li>
+	<li>You can backup data stored to database from “Data Maintenance” on Utility on upper screen.</li>
+	<li>There is no write permission to <?php echo $baseUrl ?>app/Config/install.php if Un-Editable Item. Please give write permission or edit target File directly.</li>
+	<li>Write permission are needed for following 2 files besides above install.php to switching Smart URL from Admin System. Please restore permission after changing.<br />
+		<pre>/hoangnm/basercms-4.2.1/basercms/.htaccess			/hoangnm/basercms-4.2.1/basercms/app/webroot/.htaccess</pre>
+	</li>
+</ul>	</div>
+
+	<div class="clearfix close">
+		<div id="CloseHelp">
+			<a><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/btn_close.png" width="14" height="14" alt="Close" class="btn"/></a>
+		</div>
+	</div>
+
+<!-- / #Help --></div>";

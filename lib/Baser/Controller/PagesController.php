@@ -97,8 +97,8 @@ class PagesController extends AppController {
 			$this->dispatchEvent('afterAdd', [
 				'data' => $data
 			]);
-			
-			$message = sprintf(__d('baser', '固定ページ「%s」を追加しました。'), $this->request->data['Content']['title']);
+
+			$message = sprintf(__d('baser', "固定ページ「%s」を追加しました。\n%s"), $this->request->data['Content']['title'], urldecode($data['Content']['url']));
 			$this->setMessage($message, false, true, false);
 			return json_encode($data['Content']);
 		} else {
@@ -150,7 +150,7 @@ class PagesController extends AppController {
 				}
 
 				// 完了メッセージ
-				$this->setMessage(sprintf(__d('baser', '固定ページ「%s」を更新しました。'), $this->request->data['Content']['name']), false, true);
+				$this->setMessage(sprintf(__d('baser', "固定ページ「%s」を更新しました。\n%s"), $this->request->data['Content']['name'], urldecode($this->request->data['Content']['url'])), false, true);
 
 				// EVENT Pages.afterEdit
 				$this->dispatchEvent('afterEdit', [
@@ -167,7 +167,8 @@ class PagesController extends AppController {
 		// 公開リンク
 		$publishLink = '';
 		if ($this->request->data['Content']['status']) {
-			$publishLink = $this->request->data['Content']['url'];
+			$site = BcSite::findById($this->request->data['Content']['site_id']);
+			$publishLink = $this->Content->getUrl($this->request->data['Content']['url'], true, $site->useSubDomain);
 		}
 		// エディタオプション
 		$editorOptions = ['editorDisableDraft' => false];
@@ -191,9 +192,9 @@ class PagesController extends AppController {
 		$this->set(compact('editorOptions', 'pageTemplateList', 'publishLink'));
 		
 		if (!empty($this->request->data['Content']['title'])) {
-			$this->pageTitle = __d('baser', '固定ページ情報編集') . '：' . $this->request->data['Content']['title'];
+			$this->pageTitle = __d('baser', '固定ページ情報編集');
 		} else {
-			$this->pageTitle = __d('baser', '固定ページ情報編集') . '：' . Inflector::Classify($this->request->data['Content']['name']);
+			$this->pageTitle = __d('baser', '固定ページ情報編集');
 		}
 		$this->help = 'pages_form';
 		$this->render('form');

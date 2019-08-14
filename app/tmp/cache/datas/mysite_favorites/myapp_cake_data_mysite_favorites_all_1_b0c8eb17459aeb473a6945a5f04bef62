@@ -1,0 +1,2 @@
+1652066056
+a:2:{i:0;a:1:{s:8:"Favorite";a:7:{s:2:"id";s:1:"1";s:7:"user_id";s:1:"1";s:4:"name";s:15:"クレジット";s:3:"url";s:20:"javascript:credit();";s:4:"sort";s:1:"1";s:7:"created";s:19:"2019-08-14 11:32:07";s:8:"modified";s:19:"2019-08-14 11:32:07";}}i:1;a:1:{s:8:"Favorite";a:7:{s:2:"id";s:1:"2";s:7:"user_id";s:1:"1";s:4:"name";s:16:"Mail Form 管理";s:3:"url";s:29:"/admin/mail/mail_configs/form";s:4:"sort";s:1:"2";s:7:"created";s:19:"2019-08-14 12:14:16";s:8:"modified";s:19:"2019-08-14 12:14:16";}}}

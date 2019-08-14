@@ -151,13 +151,8 @@ class BlogController extends BlogAppController {
 
 		// コメント送信用のトークンを出力する為にセキュリティコンポーネントを利用しているが、
 		// 表示用のコントローラーなのでポストデータのチェックは必要ない
-		if (Configure::read('debug') > 0) {
-			$this->Security->validatePost = false;
-			$this->Security->csrfCheck = false;
-		} else {
-			$this->Security->enabled = true;
-			$this->Security->validatePost = false;
-		}
+		$this->Security->validatePost = false;
+		$this->Security->csrfCheck = false;
 	}
 
 /**
@@ -213,7 +208,9 @@ class BlogController extends BlogAppController {
 		}
 
 		$datas = $this->_getBlogPosts(['num' => $listCount]);
-		$this->set('editLink', ['admin' => true, 'plugin' => 'blog', 'controller' => 'blog_contents', 'action' => 'edit', $this->blogContent['BlogContent']['id']]);
+		if (BcUtil::loginUser('admin')) {
+			$this->set('editLink', ['admin' => true, 'plugin' => 'blog', 'controller' => 'blog_contents', 'action' => 'edit', $this->blogContent['BlogContent']['id']]);
+		}
 		$this->set('posts', $datas);
 		$this->set('single', false);
 		$this->pageTitle = $this->request->params['Content']['title'];
@@ -406,7 +403,7 @@ class BlogController extends BlogAppController {
 
 				}
 				
-				if (BcUtil::isAdminUser()) {
+				if (BcUtil::loginUser('admin')) {
 					$this->set('editLink', ['admin' => true, 'plugin' => 'blog', 'controller' => 'blog_posts', 'action' => 'edit', $post['BlogPost']['blog_content_id'], $post['BlogPost']['id']]);
 				}
 

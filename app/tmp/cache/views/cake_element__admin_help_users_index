@@ -1,0 +1,22 @@
+1565753694
+s:1014:"
+
+<div id="Help" class="clearfix">
+
+	<h2 class="head">
+		<img src="/hoangnm/basercms-4.2.1/basercms/img/admin/head_help.png" alt="Help"/>Help	</h2>
+
+	<div class="body">
+		
+
+<p>You can manage Users that can login in Manage User.<br />Click "Add" button on upper left of List to add new User.</p>
+<p>You can re-login as another User from List's <img src="/hoangnm/basercms-4.2.1/basercms/img/admin/icn_tool_login.png" alt="Login" title="Login"/> if you were logging in as a System Admin Group (Representative Login). <br />It's useful when registering other User's "Favorite Items".</p>
+<p>Click "Back to Previous User" on User name on upper screen to go back to previous User.<br /><small>Caution: Target Representative Login will be User that are not in System Admin Group.</small></p>	</div>
+
+	<div class="clearfix close">
+		<div id="CloseHelp">
+			<a><img src="/hoangnm/basercms-4.2.1/basercms/img/admin/btn_close.png" width="14" height="14" alt="Close" class="btn"/></a>
+		</div>
+	</div>
+
+<!-- / #Help --></div>";
